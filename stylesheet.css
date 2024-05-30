@@ -1,0 +1,96 @@
+/* Common */
+:root {
+    font-size: 16px;
+    font-family: "Open Sans";
+}
+body {
+    background-color: #d0e4fe;
+}
+h1 {
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Titles */
+.medium_title {
+    font-size: larger;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.small_title {
+    font-weight: bold;
+}
+
+/* Containers */
+.container div {
+    padding: 0px 10px 0px 0px;
+    margin: 0px 10px 0px 0px;
+}
+.container {
+    border: 1px solid;
+    padding: 10px;
+    margin: 10px;
+}
+.row_subcontainer {
+    /* border: 1px solid blue; */
+    display: flex;
+    flex-direction: row;
+}
+.column_subcontainer {
+    display: flex;
+    flex-direction: column;
+}
+.box {
+    /* border: 1px solid red; */
+    padding:5px 0px 5px 0px;
+    margin:5px 0px 5px 0px;
+}
+
+/* Settings */
+#settings_container {
+    width: 500px;
+}
+#row_number {
+    width: 20px;
+}
+#column_number {
+    width: 20px;
+}
+#customization_title {
+    color: grey;
+}
+#customization {
+    display: block;
+}
+
+/* Input */
+.input_element {
+    width: 3em;
+}
+.container .input_row {
+    padding: 0px 2px 0px 0px;
+    margin: 0px 2px 0px 0px;
+}
+#matrix_input_container {
+    padding: 0px;
+    margin: 0px;
+}
+#vector_input_container {
+    padding: 0px;
+    margin: 0px;
+}
+#vl {
+    border-left: 2px solid;
+    height: 69px;
+    padding: 0px 2px 0px 0px;
+    margin: 0px 2px 0px 0px;
+    display: block;
+}
+
+/* Output */
+#output_container {
+    display: none;
+}
+#analysis_container {
+    display: none;
+}

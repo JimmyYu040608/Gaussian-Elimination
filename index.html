@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial scale=1.0">
+        <title>Gaussian Elimination Calculator v1.4.0</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </head>
+    <body>
+        <h1>Gaussian Elimination Calculator v1.4.0</h1>
+        <div class="container" id="settings_container">
+            <div class="medium_title">Settings</div>
+            <div class="subcontainer">
+                <div class="box">
+                    <div class="small_title">Order of Matrix</div>
+                    <label for="row_input">No. of rows: </label>
+                    <input id="row_input" name="row_input" maxlength="2" size="1" value="3" onkeydown="setting_keydown(event,this)">
+                    <br>
+                    <label for="column_input">No. of columns: </label>
+                    <input id="column_input" name="column_input" maxlength="2" size="1" value="3" onkeydown="setting_keydown(event,this)">
+                    <br>
+                    <label for="vector_input">No. of constant vectors</label>
+                    <input id="vector_input" name="vector_input" maxlength="2" size="1" value="1" onkeydown="setting_keydown(event,this)">
+                </div>
+                <div class="box">
+                    <div class="small_title">Mode</div>
+                    <div id="approach_choice">
+                        <input type="radio" id="solve_for_solution_choice" name="approach" checked="true" onchange="approach_choice()">
+                        <label for="solve_for_solution_choice">Solve for solution</label>
+                        <input type="radio" id="customized_choice" name="approach" onchange="approach_choice()">
+                        <label for="customized_choice">Customized</label>
+                    </div>
+                    <div style="color:red; font-style: italic; text-decoration: underline;">*Customized mode does not provide solution analysis</div>
+                    <div id="customization_title" class="small_title" style="color:grey">Customization &#x1F512;</div>
+                    <div id="customization">
+                        <input type="checkbox" id="const_vector_checkbox" checked="true" disabled="true">
+                        <label for="const_vector_checkbox" style="color:grey">Constant vectors</label>
+                        <br>
+                        <input type="checkbox" id="reduced_form_checkbox" checked="true" disabled="true">
+                        <label for="reduced_form_checkbox" style="color:grey">Reduce completely</label>
+                        <br>
+                        <input type="checkbox" id="scalar_multiply_checkbox" checked="true" disabled="true">
+                        <label for="scalar_multiply_checkbox" style="color:grey">Allow row scalar multiplication</label>
+                        <br>
+                        <input type="checkbox" id="reorder_checkbox" checked="true" disabled="true">
+                        <label for="reorder_checkbox" style="color:grey">Allow row reordering</label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="settings_btn">Confirm</button>
+                <span id="setting_error_box" style="color:red; font-style: italic; text-decoration: underline;"></span>
+            </div>
+        </div>
+        <div class="container" id="input_container">
+            <div class="medium_title">Input</div>
+            <div>Enter your matrix:</div>
+            <div class="row_subcontainer">
+                <div class="box" id="matrix_input_container">
+                    <div class="input_row" id="input_row1">
+                        <input class="input_element" id="input_element1_1" title="1,1" value="1" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element1_2" title="1,2" value="2" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element1_3" title="1,3" value="3" onkeydown="keydown_functions(event,this)">
+                    </div>
+                    <div class="input_row" id="input_row2">
+                        <input class="input_element" id="input_element2_1" title="2,1" value="1" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element2_2" title="2,2" value="1" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element2_3" title="2,3" value="1" onkeydown="keydown_functions(event,this)">
+                    </div>
+                    <div class="input_row" id="input_row3">
+                        <input class="input_element" id="input_element3_1" title="3,1" value="9" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element3_2" title="3,2" value="1" onkeydown="keydown_functions(event,this)">
+                        <input class="input_element" id="input_element3_3" title="3,3" value="4" onkeydown="keydown_functions(event,this)">
+                    </div>
+                </div>
+                <div class="box" id="vl"></div>
+                <div class="box column_subcontainer" id="vector_input_container">
+                    <div class="input_row" id="vector_row1">
+                        <input class="input_element" id="vector_element1_1" title="1" value="1" onkeydown="keydown_functions(event,this)">
+                    </div>
+                    <div class="input_row" id="vector_row2">
+                        <input class="input_element" id="vector_element2_1" title="2" value="0" onkeydown="keydown_functions(event,this)">
+                    </div>
+                    <div class="input_row" id="vector_row3">
+                        <input class="input_element" id="vector_element3_1" title="3" value="2" onkeydown="keydown_functions(event,this)">
+                    </div>
+                </div>
+            </div>
+            <button id="matrix_input_btn">Confirm</button>
+        </div>
+        <div class="container" id="output_container">
+            <div class="medium_title">Output</div>
+            <div>Your matrix:</div>
+            <div id="raw_matrix_box">
+                $$
+                \left[
+                \begin{array}{ccc|c}
+                a & b & c & v \\
+                c & d & d & v \\
+                e & f & g & v \\
+                \end{array}
+                \right]
+                $$
+            </div>
+            <hr>
+            <div>Solution:</div>
+            <div id="solution_container"></div>
+        </div>
+        <div class="container" id="analysis_container">
+            <div class="medium_title">Solution analysis:</div>
+            <div class="box">
+                <div id="vector_object1"></div>
+                <div id="rank_object1">Rank:</div>
+                <div id="solution_analysis_object1"></div>
+                <div id="solution_box1"></div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
